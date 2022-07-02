@@ -4,6 +4,10 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { getAllNotesAPI } from "../api";
 import Notes from "../components/Notes";
 
+interface EmptyStateProps {
+  name: string;
+}
+
 const EmptyState: FunctionComponent<EmptyStateProps> = ({
   name,
 }: EmptyStateProps) => {
@@ -74,7 +78,7 @@ const HomeOverviewView = ({
   return (
     <>
       {notes ? (
-        <ContextView title="Dashboard">
+        <ContextView title="Overview">
           <Box css={{ stack: "y" }}>
             <Inline
               css={{

@@ -3,10 +3,18 @@ import moment from "moment";
 import { Note } from "../../types";
 
 interface NotesProps {
-  notes: Note[];
+  notes: Note[] | null;
 }
 
 const Notes = ({ notes }: NotesProps) => {
+  if (!notes) {
+    return (
+      <Box css={{ marginTop: "medium" }}>
+        <Inline>No notes found</Inline>
+      </Box>
+    );
+  }
+
   return (
     <Box css={{ marginTop: "medium" }}>
       {notes.map((note: Note, i: number) => {
@@ -27,6 +35,7 @@ const Notes = ({ notes }: NotesProps) => {
                   >
                     View →
                   </Link>
+                  {/* todo: need to check for environment */}
                 </Box>
               }
             />

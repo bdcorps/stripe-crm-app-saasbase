@@ -20,7 +20,7 @@ const App = ({ userContext, environment }: ExtensionContextValue) => {
   const agentName = userContext?.account.name || ""; //todo
 
   const [picker, setPicker] = useState<boolean>(false);
-  const [note, setNote] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const [notes, setNotes] = useState<Note[] | null>(null);
 
   const getNotes = () => {
@@ -37,7 +37,7 @@ const App = ({ userContext, environment }: ExtensionContextValue) => {
 
   return (
     <ContextView
-      title="Recent Notes"
+      title="All Notes"
       description={agentName}
       brandColor="#F6F8FA"
       brandIcon={BrandIcon}
@@ -59,8 +59,9 @@ const App = ({ userContext, environment }: ExtensionContextValue) => {
           <Button
             type="primary"
             onPress={async () => {
-              await addNoteAPI({ accountId: "", message: "" });
+              await addNoteAPI({ customerId, message });
               setPicker(false);
+              getNotes();
             }}
           >
             Save note
@@ -79,9 +80,9 @@ const App = ({ userContext, environment }: ExtensionContextValue) => {
         <TextArea
           label="Message"
           placeholder="Looking for more enterprise features like SEO..."
-          value={note}
+          value={message}
           onChange={(e) => {
-            setNote(e.target.value);
+            setMessage(e.target.value);
           }}
         />
       </FocusView>
@@ -99,7 +100,7 @@ const App = ({ userContext, environment }: ExtensionContextValue) => {
             View All Notes
           </Inline>
 
-          {notes && <Notes notes={notes} />}
+          <Notes notes={notes} />
         </Box>
       </Box>
     </ContextView>
