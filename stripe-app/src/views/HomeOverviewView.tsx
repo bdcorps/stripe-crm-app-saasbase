@@ -3,6 +3,7 @@ import { Box, Button, ContextView, Inline } from "@stripe/ui-extension-sdk/ui";
 import { FunctionComponent, useEffect, useState } from "react";
 import { getAllNotesAPI } from "../api";
 import Notes from "../components/Notes";
+import { APIResponse, Note } from "../types";
 
 interface EmptyStateProps {
   name: string;
@@ -63,11 +64,13 @@ const HomeOverviewView = ({
   const agentId = userContext?.account.id || ""; // todo: deal with no id
   const agentName = userContext?.account.name || ""; // todo: deal with no name
 
-  const [notes, setNotes] = useState<any>(null);
+  const [notes, setNotes] = useState<Note[] | null>(null);
 
   const getAllNotes = () => {
-    getAllNotesAPI().then((data) => {
-      setNotes(data);
+    getAllNotesAPI().then((res: APIResponse) => {
+      if (!res.data.error) {
+        setNotes(res.data.notes);
+      }
     });
   };
 

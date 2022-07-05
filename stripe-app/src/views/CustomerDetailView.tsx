@@ -1,16 +1,18 @@
 import type { ExtensionContextValue } from "@stripe/ui-extension-sdk/context";
 import {
+  Banner,
   Box,
   Button,
   ContextView,
   FocusView,
+  Icon,
   Inline,
   TextArea,
 } from "@stripe/ui-extension-sdk/ui";
 import { useEffect, useState } from "react";
 import { addNoteAPI, getNotesForCustomerAPI } from "../api";
 import Notes from "../components/Notes";
-import { Note } from "../types";
+import { APIResponse, Note } from "../types";
 import BrandIcon from "./brand_icon.svg";
 
 const App = ({ userContext, environment }: ExtensionContextValue) => {
@@ -21,11 +23,19 @@ const App = ({ userContext, environment }: ExtensionContextValue) => {
 
   const [picker, setPicker] = useState<boolean>(false);
   const [message, setMessage] = useState<string>("");
+  const [showAddNoteSuccessMessage, setShowAddNoteSuccessMessage] =
+    useState<boolean>(false);
   const [notes, setNotes] = useState<Note[] | null>(null);
 
   const getNotes = () => {
-    getNotesForCustomerAPI({ id: customerId }).then((data: Note[]) => {
-      setNotes(data);
+    if (!customerId) {
+      return;
+    }
+
+    getNotesForCustomerAPI({ customerId }).then((res: APIResponse) => {
+      if (!res.data.error) {
+        setNotes(res.data.notes);
+      }
     });
   };
 
@@ -47,10 +57,23 @@ const App = ({ userContext, environment }: ExtensionContextValue) => {
           css={{ width: "fill", alignX: "center" }}
           onPress={() => setPicker(true)}
         >
-          Add note
+          <Box css={{ stack: "x", gap: "small", alignY: "center" }}>
+            <Icon name="addCircle" size="xsmall" />
+            <Inline>Add note</Inline>
+          </Box>
         </Button>
       }
     >
+      {showAddNoteSuccessMessage && (
+        <Box css={{ marginBottom: "small" }}>
+          <Banner
+            type="default"
+            onDismiss={() => setShowAddNoteSuccessMessage(false)}
+            title="Note created"
+          />
+        </Box>
+      )}
+
       <FocusView
         title="Add a new note"
         shown={picker}
@@ -60,8 +83,10 @@ const App = ({ userContext, environment }: ExtensionContextValue) => {
             type="primary"
             onPress={async () => {
               await addNoteAPI({ customerId, message });
+              setMessage("");
               setPicker(false);
               getNotes();
+              setShowAddNoteSuccessMessage(true);
             }}
           >
             Save note
@@ -81,6 +106,7 @@ const App = ({ userContext, environment }: ExtensionContextValue) => {
           label="Message"
           placeholder="Looking for more enterprise features like SEO..."
           value={message}
+          autoFocus
           onChange={(e) => {
             setMessage(e.target.value);
           }}

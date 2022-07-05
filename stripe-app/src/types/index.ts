@@ -5,3 +5,8 @@ export interface Note {
   message: string;
   createdAt: Date;
 }
+
+export interface APIResponse {
+  data: any;
+  error: boolean;
+}
