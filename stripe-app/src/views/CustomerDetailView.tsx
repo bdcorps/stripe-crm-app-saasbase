@@ -4,13 +4,12 @@ import {
   Box,
   Button,
   ContextView,
-  FocusView,
   Icon,
   Inline,
-  TextArea,
 } from "@stripe/ui-extension-sdk/ui";
 import { useEffect, useState } from "react";
-import { addNoteAPI, getNotesForCustomerAPI } from "../api";
+import { getNotesForCustomerAPI } from "../api";
+import AddNoteView from "../components/AddNoteView";
 import Notes from "../components/Notes";
 import { APIResponse, Note } from "../types";
 import BrandIcon from "./brand_icon.svg";
@@ -24,11 +23,10 @@ const CustomerDetailView = ({
   const agentId = userContext?.account.id || ""; //todo
   const agentName = userContext?.account.name || ""; //todo
 
-  const [picker, setPicker] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>("");
+  const [notes, setNotes] = useState<Note[] | null>(null);
+  const [showAddNoteView, setShowAddNoteView] = useState<boolean>(false);
   const [showAddNoteSuccessMessage, setShowAddNoteSuccessMessage] =
     useState<boolean>(false);
-  const [notes, setNotes] = useState<Note[] | null>(null);
 
   const getNotes = () => {
     if (!customerId) {
@@ -58,7 +56,9 @@ const CustomerDetailView = ({
         <Button
           type="primary"
           css={{ width: "fill", alignX: "center" }}
-          onPress={() => setPicker(true)}
+          onPress={() => {
+            setShowAddNoteView(true);
+          }}
         >
           <Box css={{ stack: "x", gap: "small", alignY: "center" }}>
             <Icon name="addCircle" size="xsmall" />
@@ -72,49 +72,24 @@ const CustomerDetailView = ({
           <Banner
             type="default"
             onDismiss={() => setShowAddNoteSuccessMessage(false)}
-            title="Note created"
+            title="Added new note"
           />
         </Box>
       )}
 
-      <FocusView
-        title="Add a new note"
-        shown={picker}
-        onClose={() => setPicker(false)}
-        primaryAction={
-          <Button
-            type="primary"
-            onPress={async () => {
-              await addNoteAPI({ customerId, message });
-              setMessage("");
-              setPicker(false);
-              getNotes();
-              setShowAddNoteSuccessMessage(true);
-            }}
-          >
-            Save note
-          </Button>
-        }
-        secondaryAction={
-          <Button
-            onPress={() => {
-              setPicker(false);
-            }}
-          >
-            Cancel
-          </Button>
-        }
-      >
-        <TextArea
-          label="Message"
-          placeholder="Looking for more enterprise features like SEO..."
-          value={message}
-          autoFocus
-          onChange={(e) => {
-            setMessage(e.target.value);
-          }}
-        />
-      </FocusView>
+      <AddNoteView
+        isOpen={showAddNoteView}
+        customerId={customerId as string}
+        agentId={agentId}
+        onSuccessAction={() => {
+          setShowAddNoteView(false);
+          setShowAddNoteSuccessMessage(true);
+          getNotes();
+        }}
+        onCancelAction={() => {
+          setShowAddNoteView(false);
+        }}
+      />
 
       <Box css={{ stack: "y" }}>
         <Box css={{}}>

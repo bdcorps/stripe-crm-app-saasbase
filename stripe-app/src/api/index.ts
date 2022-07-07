@@ -18,8 +18,8 @@ const generateRandomId = (): number => {
   return Math.floor(Math.random() * 100);
 }
 
-export async function addNoteAPI({ customerId, message, user }: { customerId: string, message: string, user: string }): Promise<APIResponse> {
-  const newNote: Note = { id: generateRandomId(), agentId: user, customerId, message, createdAt: new Date() }
+export async function addNoteAPI({ customerId, message, agentId }: { customerId: string, message: string, agentId: string }): Promise<APIResponse> {
+  const newNote: Note = { id: generateRandomId(), agentId, customerId, message, createdAt: new Date() }
   notes.push(newNote)
 
   const response: APIResponse = { error: false, data: {} }
