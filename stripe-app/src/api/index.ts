@@ -4,7 +4,13 @@ const notes: Note[] = [{
   id: 1,
   agentId: "acc_",
   customerId: "cus_Lkx8AOzZ3js2N1",
-  message: "this is a message",
+  message: "Needs SSO auth integration",
+  createdAt: new Date()
+}, {
+  id: 2,
+  agentId: "acc_",
+  customerId: "cus_LksZWRqAAxal22",
+  message: "Call scheduled for Aug 5th",
   createdAt: new Date()
 }]
 

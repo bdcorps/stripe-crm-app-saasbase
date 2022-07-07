@@ -15,7 +15,10 @@ import Notes from "../components/Notes";
 import { APIResponse, Note } from "../types";
 import BrandIcon from "./brand_icon.svg";
 
-const App = ({ userContext, environment }: ExtensionContextValue) => {
+const CustomerDetailView = ({
+  userContext,
+  environment,
+}: ExtensionContextValue) => {
   const customerId = environment?.objectContext?.id;
 
   const agentId = userContext?.account.id || ""; //todo
@@ -133,4 +136,4 @@ const App = ({ userContext, environment }: ExtensionContextValue) => {
   );
 };
 
-export default App;
+export default CustomerDetailView;

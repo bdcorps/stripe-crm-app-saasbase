@@ -1,7 +1,7 @@
 {
-  "name": "com.saasbase.stripe-app-fe",
+  "name": "com.saasbase.crmbuddy",
   "version": "0.0.1",
-  "description": "Stripe CRM",
+  "description": "CRM Buddy",
   "private": true,
   "license": "~~proprietary~~",
   "dependencies": {

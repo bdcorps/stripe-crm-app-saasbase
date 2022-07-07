@@ -1,7 +1,7 @@
 {
   "id": "com.saasbase.stripe-app-fe",
   "version": "0.0.1",
-  "name": "Stripe CRM",
+  "name": "CRM Buddy",
   "icon": "",
   "permissions": [],
   "app_backend": {
