@@ -1,5 +1,4 @@
 import { Box, Inline, Link, List, ListItem } from "@stripe/ui-extension-sdk/ui";
-import moment from "moment";
 import { Note } from "../../types";
 
 interface NotesProps {
@@ -7,7 +6,7 @@ interface NotesProps {
 }
 
 const Notes = ({ notes }: NotesProps) => {
-  if (!notes) {
+  if (!notes || notes.length === 0) {
     return (
       <Box css={{ marginTop: "medium" }}>
         <Inline>No notes found</Inline>
@@ -24,7 +23,7 @@ const Notes = ({ notes }: NotesProps) => {
               title={<Box>Note #{note.id}</Box>}
               secondaryTitle={
                 <Box css={{ stack: "y" }}>
-                  <Inline>{moment().calendar()}</Inline>
+                  <Inline>{new Date().toLocaleDateString("en-US")}</Inline>
                   <Inline>{note.message}</Inline>
                 </Box>
               }
@@ -35,7 +34,6 @@ const Notes = ({ notes }: NotesProps) => {
                   >
                     View →
                   </Link>
-                  {/* todo: need to check for environment */}
                 </Box>
               }
             />

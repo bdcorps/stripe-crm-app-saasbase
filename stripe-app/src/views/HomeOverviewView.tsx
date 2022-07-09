@@ -9,7 +9,7 @@ const HomeOverviewView = ({
   userContext,
   environment,
 }: ExtensionContextValue) => {
-  const agentName = userContext?.account.name || ""; // todo: deal with no name
+  const agentName = userContext?.account.name as string;
 
   const [notes, setNotes] = useState<Note[] | null>(null);
 
