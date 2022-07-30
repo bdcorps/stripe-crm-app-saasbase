@@ -24,7 +24,7 @@ const HomeOverviewView = ({
   useEffect(() => {
     getAllNotes();
   }, []);
-
+  console.log(notes);
   return (
     <>
       <ContextView title="Overview">

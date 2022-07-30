@@ -6,7 +6,7 @@ import HomeOverviewView from '../src/views/HomeOverviewView';
 
 
 export * from '@stripe/ui-extension-sdk/version';
-export const BUILD_TIME = '2022-07-17 17:16:05.481579 -0400 EDT m=+0.016380876'
+export const BUILD_TIME = '2022-07-30 18:17:53.184242 -0400 EDT m=+0.015670251'
 
 export {
 	
