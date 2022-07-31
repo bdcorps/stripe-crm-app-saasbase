@@ -19,7 +19,6 @@ app.post("/note", async (req, res) => {
 
   await createNote(newNote);
   res.json({ error: false, data: {} })
-
 })
 
 app.get("/notes", async (req, res) => {
